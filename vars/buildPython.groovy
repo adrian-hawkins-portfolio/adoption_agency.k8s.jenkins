@@ -18,7 +18,7 @@ def call(Map config = [:]) {
                 steps {
                     sh 'poetry --version'
                 }
-            `}
+            }
         }
 
         post {
