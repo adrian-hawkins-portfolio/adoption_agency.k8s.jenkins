@@ -17,7 +17,11 @@ def call(Map config = [:]) {
             echo "Repository: ${repoName}"
             sh 'helm version'
             sh 'helm list -A'
-            sh 'git clone https://github.com/adrian-hawkins-portfolio/adoption_agency.k8s.helm.git'
+            sh """
+                if [ ! -d "adoption_agency.k8s.helm" ]; then
+                    git clone https://github.com/adrian-hawkins-portfolio/adoption_agency.k8s.helm.git
+                fi
+            """
             echo "building ${repoName}/${imageName}"
             sh """
                 helm dependency build ./adoption_agency.k8s.helm/${repoName}/${imageName}
