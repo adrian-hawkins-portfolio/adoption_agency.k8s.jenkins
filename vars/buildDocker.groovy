@@ -20,7 +20,7 @@ def call(Map config = [:]) {
             sh 'git clone https://github.com/adrian-hawkins-portfolio/adoption_agency.k8s.helm.git'
             echo "building ${repoName}/${imageName}"
             sh """
-                helm dependency build
+                helm dependency build ./adoption_agency.k8s.helm/${repoName}/${imageName}
                 helm template \
                 ./adoption_agency.k8s.helm/${repoName}/${imageName} \
                 --values ./adoption_agency.k8s.helm/${repoName}/${imageName}/values.yaml
