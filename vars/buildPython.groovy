@@ -1,9 +1,27 @@
 def call(Map config = [:]) {
     def pyprojectPath = config.pyprojectPath ?: 'pyproject.toml'
-    def extraArgs     = config.extraArgs ?: ''
+    def projectDir = pyprojectPath.contains('/') 
+        ? pyprojectPath.substring(0, pyprojectPath.lastIndexOf('/')) 
+        : '.'
 
-    stage('Python - Tools') {
-        sh 'poetry --version'
-        sh 'echo "PYPI_URL = $PYPI_URL"'
+    stage('Poetry setup') {
+        sh """
+        poetry --version
+        poetry config repositories.azure $PYPI_URL
+        poetry config http-basic.azure azure $PYPI_TOKEN
+        """
+    }
+
+    stage('Poetry install') {
+        sh """
+            poetry -C ${projectDir} install
+        """
+    }
+
+    stage('Poetry publish') {
+        sh """
+            poetry -C ${projectDir} version ${env.BUILD_NUMBER}
+            poetry -C ${projectDir} publish -r azure --build
+        """
     }
 }
