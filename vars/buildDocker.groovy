@@ -13,9 +13,10 @@ def call(Map config = [:]) {
 
     if (isPod) {
         stage('Helm') {
-            def repoName = Utils.getRepoName(this)
+            def repoName = Utils.getRepoName(this).split('\\.')[-1]
             echo "Repository: ${repoName}"
             sh 'helm version'
+            sh 'helm list -A'
         }
     }
 }
