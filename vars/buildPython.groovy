@@ -4,5 +4,6 @@ def call(Map config = [:]) {
 
     stage('Python - Tools') {
         sh 'poetry --version'
+        sh 'echo "PYPI_URL = $PYPI_URL"'
     }
 }
