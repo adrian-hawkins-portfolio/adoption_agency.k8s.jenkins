@@ -12,13 +12,9 @@ def call(Map config = [:]) {
         """
     }
 
-    stage('Poetry install') {
-        sh """
-            poetry -C ${projectDir} install
-        """
-    }
 
     stage('Poetry publish') {
+        // Horrible version strategy
         sh """
             poetry -C ${projectDir} version ${env.BUILD_NUMBER}
             poetry -C ${projectDir} publish -r azure --build
