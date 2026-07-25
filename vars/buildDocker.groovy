@@ -11,15 +11,10 @@ def call(Map config = [:]) {
         sh 'docker info'
     }
 
-    stage('Helm') {
-        when {
-            expression { isPod }
-        }
-        steps {
-            script {
-                def repoName = Utils.getRepoName(this)
-                echo "Repository: ${repoName}"
-            }
+    if (isPod) {
+        stage('Helm') {
+            def repoName = Utils.getRepoName(this)
+            echo "Repository: ${repoName}"
             sh 'helm version'
         }
     }
