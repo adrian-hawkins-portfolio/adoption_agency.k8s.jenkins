@@ -22,11 +22,5 @@ def call(Map config = [:]) {
                 }
             }
         }
-
-        post {
-            always {
-                cleanWs()
-            }
-        }
     }
 }
