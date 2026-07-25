@@ -13,10 +13,13 @@ def call(Map config = [:]) {
 
     if (isPod) {
         stage('Helm') {
-            def repoName = Utils.getRepoName(this).split('\\.')[-1]
+            def repoName = Utils.getRepoName(this).tokenize('.').last()
             echo "Repository: ${repoName}"
             sh 'helm version'
             sh 'helm list -A'
+            sh 'git clone https://github.com/adrian-hawkins-portfolio/adoption_agency.k8s.helm.git'
+            echo "building ${repoName}/${imageName}"
+            sh 'helm template ./adoption_agency.k8s.helm/${repoName}/${imageName}/ --values ./adoption_agency.k8s.helm/${repoName}/${imageName}/values.yaml'
         }
     }
 }
