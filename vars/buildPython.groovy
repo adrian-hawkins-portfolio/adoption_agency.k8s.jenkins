@@ -16,6 +16,7 @@ def call(Map config = [:]) {
     stage('Poetry publish') {
         // Horrible version strategy
         sh """
+            cd ${projectDir}
             poetry version ${env.BUILD_NUMBER}
             poetry build
             poetry publish -r azure
