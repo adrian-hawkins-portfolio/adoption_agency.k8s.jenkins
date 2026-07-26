@@ -10,8 +10,6 @@ def call(Map config = [:]) {
     stage('Docker - Info') {
         sh 'docker info'
         sh """
-            docker rmi ghcr.io/adrian-hawkins-portfolio/${imageName}:${tag} || true
-
             docker build \
               --pull \
               --no-cache \
