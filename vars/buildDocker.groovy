@@ -12,7 +12,7 @@ def call(Map config = [:]) {
         sh """
             docker build \
               --build-arg AZURE_DEVOPS_PAT=$PYPI_TOKEN \
-              --build-arg AZURE_FEED_URL=$PYPI_URL \
+              --build-arg AZURE_FEED_URL=$PYPI_URL_PULL \
               -t ghcr.io/adrian-hawkins-portfolio/${imageName}:${tag} ${dockerfilePath}
             docker push ghcr.io/adrian-hawkins-portfolio/${imageName}:${tag}
         """

@@ -7,7 +7,7 @@ def call(Map config = [:]) {
     stage('Poetry setup') {
         sh """
         poetry --version
-        poetry config repositories.azure $PYPI_URL
+        poetry config repositories.azure $PYPI_URL_PUBLISH
         poetry config http-basic.azure azure $PYPI_TOKEN
         """
     }
