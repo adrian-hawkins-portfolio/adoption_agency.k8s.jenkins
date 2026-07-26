@@ -10,10 +10,17 @@ def call(Map config = [:]) {
     stage('Docker - Info') {
         sh 'docker info'
         sh """
+            docker rmi ghcr.io/adrian-hawkins-portfolio/${imageName}:${tag} || true
+
             docker build \
-              --build-arg AZURE_DEVOPS_PAT=$PYPI_TOKEN \
-              --build-arg AZURE_FEED_URL=$PYPI_URL_PULL \
-              -t ghcr.io/adrian-hawkins-portfolio/${imageName}:${tag} ${dockerfilePath}
+              --pull \
+              --no-cache \
+              --build-arg AZURE_DEVOPS_PAT=\$PYPI_TOKEN \
+              --build-arg AZURE_FEED_URL=\$PYPI_URL_PULL \
+              -f ${dockerfilePath} \
+              -t ghcr.io/adrian-hawkins-portfolio/${imageName}:${tag} \
+              ${context}
+
             docker push ghcr.io/adrian-hawkins-portfolio/${imageName}:${tag}
         """
     }
