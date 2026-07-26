@@ -9,6 +9,13 @@ def call(Map config = [:]) {
 
     stage('Docker - Info') {
         sh 'docker info'
+        sh """
+            docker build \
+              --build-arg AZURE_DEVOPS_PAT=$PYPI_TOKEN \
+              --build-arg AZURE_FEED_URL=$PYPI_URL \
+              -t ghcr.io/adrian-hawkins-portfolio/${imageName}:${tag} ${dockerfilePath}
+            docker push --all-tags ghcr.io/adrian-hawkins-portfolio/${imageName}:${tag}
+        """
     }
 
     if (isPod) {
@@ -27,7 +34,8 @@ def call(Map config = [:]) {
                 helm dependency build ./adoption_agency.k8s.helm/${repoName}/${imageName}
                 helm template \
                 ./adoption_agency.k8s.helm/${repoName}/${imageName} \
-                --values ./adoption_agency.k8s.helm/${repoName}/${imageName}/values.yaml
+                --values ./adoption_agency.k8s.helm/${repoName}/${imageName}/values.yaml \
+                -n prod --set base.image.tag=${tag}
             """
         }
     }
