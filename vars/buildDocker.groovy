@@ -32,10 +32,11 @@ def call(Map config = [:]) {
             echo "building ${repoName}/${imageName}"
             sh """
                 helm dependency build ./adoption_agency.k8s.helm/${repoName}/${imageName}
-                helm template \
-                ./adoption_agency.k8s.helm/${repoName}/${imageName} \
-                --values ./adoption_agency.k8s.helm/${repoName}/${imageName}/values.yaml \
-                -n prod --set base.image.tag=${tag}
+                helm upgrade --install ${imageName} \
+                    ./adoption_agency.k8s.helm/${repoName}/${imageName} \
+                    --values ./adoption_agency.k8s.helm/${repoName}/${imageName}/values.yaml \
+                    -n prod \
+                    --set base.image.tag=${tag}
             """
         }
     }
