@@ -3,9 +3,13 @@ import com.adoption_agency.Utils
 def call(Map config = [:]) {
     def dockerfilePath = config.dockerfilePath ?: 'Dockerfile'
     def imageName      = config.imageName ?: env.JOB_NAME.replaceAll('/', '-')
-    def context        = config.context ?: '.'
     def tag            = config.tag ?: env.BUILD_NUMBER
     def isPod          = config.isPod ?: false
+
+    // Extract directory from dockerfilePath (e.g., 'database/Dockerfile' -> 'database')
+    // Defaults to '.' if dockerfilePath is just 'Dockerfile'
+    def derivedContext = new File(dockerfilePath).parent ?: '.'
+    def context        = config.context ?: derivedContext
 
     stage('Docker - Info') {
         sh 'docker info'
