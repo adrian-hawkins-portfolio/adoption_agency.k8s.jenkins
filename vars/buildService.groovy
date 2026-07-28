@@ -12,7 +12,7 @@ def call(Map config = [:]) {
 
     def pythonProjects = config.pythonProjects ?: []
     def dockerProjects = config.dockerProjects ?: []
-    def context        = config.context        ?: '.'
+    // def context        = config.context        ?: '.'
     def tag            = config.tag            ?: env.BUILD_NUMBER
     def extraArgs      = config.extraArgs      ?: ''
 
@@ -60,12 +60,13 @@ def call(Map config = [:]) {
                             def path  = project.path
                             def name  = project.name ?: env.JOB_NAME.replaceAll('/', '-')
                             def isPod = project.isPod ?: false
+                            // def context = project.context
 
                             echo "=== Docker image: ${name} (${path}) ==="
                             buildDocker(
                                 dockerfilePath: path,
                                 imageName: name,
-                                context: context,
+                                // context: context,
                                 tag: tag,
                                 isPod: isPod
                             )
