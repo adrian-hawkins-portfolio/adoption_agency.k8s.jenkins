@@ -6,8 +6,6 @@ def call(Map config = [:]) {
     def tag            = config.tag ?: env.BUILD_NUMBER
     def isPod          = config.isPod ?: false
 
-    // Extract directory from dockerfilePath (e.g., 'database/Dockerfile' -> 'database')
-    // Defaults to '.' if dockerfilePath is just 'Dockerfile'
     def derivedContext = new File(dockerfilePath).parent ?: '.'
     def context        = config.context ?: derivedContext
 
