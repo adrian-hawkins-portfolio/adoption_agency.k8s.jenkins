@@ -17,6 +17,7 @@ def call(Map config = [:]) {
               --no-cache \
               --build-arg AZURE_DEVOPS_PAT=\$PYPI_TOKEN \
               --build-arg AZURE_FEED_URL=\$PYPI_URL_PULL \
+              --build-arg SERVICE_VERSION=\${tag} \
               -f ${dockerfilePath} \
               -t ghcr.io/adrian-hawkins-portfolio/${imageName}:${tag} \
               ${context}
