@@ -8,6 +8,8 @@ def call(String credentialsId = 'github-push-token') {
             git config user.name "jenkins-bot"
             git config user.email "jenkins-bot@ci.local"
             git config credential.helper '!f() { echo "username=${GIT_USER}"; echo "password=${GIT_TOKEN}"; }; f'
+
+            git fetch --tags --force
         '''
 
         def latestTag = sh(
