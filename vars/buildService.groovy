@@ -4,6 +4,7 @@ def call(Map config = [:]) {
 
     def pythonProjects = config.pythonProjects ?: []
     def dockerProjects = config.dockerProjects ?: []
+    def git            = new GitUtils(this)
     def tag            = git.bumpAndTag()
     def extraArgs      = config.extraArgs      ?: ''
 
