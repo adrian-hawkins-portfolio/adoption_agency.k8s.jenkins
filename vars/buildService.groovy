@@ -4,8 +4,7 @@ def call(Map config = [:]) {
 
     def pythonProjects = config.pythonProjects ?: []
     def dockerProjects = config.dockerProjects ?: []
-    def git            = new GitUtils(this)
-    def tag            = git.bumpAndTag()
+    def tag
     def extraArgs      = config.extraArgs      ?: ''
 
     pipeline {
@@ -19,6 +18,19 @@ def call(Map config = [:]) {
                     checkout scm
                 }
             }
+
+            stage('Bump and Tag') {
+                steps {
+                    container('jnlp') {
+                        script {
+                            def git = new GitUtils(this)
+                            tag = git.bumpAndTag()
+                            echo "Tagged version: ${tag}"
+                        }
+                    }
+                }
+            }
+
 
             stage('Python') {
                 when {
