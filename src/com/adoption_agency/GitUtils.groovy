@@ -8,7 +8,7 @@ class GitUtils implements Serializable {
         this.script = script
     }
 
-    String bumpAndTag(String credentialsId = 'github-push-creds') {
+    String bumpAndTag(String credentialsId = 'github-push-token') {
         def result
 
         script.withCredentials([
