@@ -1,8 +1,10 @@
+import com.adoption_agency.GitUtils
+
 def call(Map config = [:]) {
 
     def pythonProjects = config.pythonProjects ?: []
     def dockerProjects = config.dockerProjects ?: []
-    def tag            = config.tag            ?: env.BUILD_NUMBER
+    def tag            = git.bumpAndTag()
     def extraArgs      = config.extraArgs      ?: ''
 
     pipeline {
