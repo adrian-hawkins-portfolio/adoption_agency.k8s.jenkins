@@ -32,7 +32,8 @@ def call(Map config = [:]) {
                             echo "=== Python project: ${name} (${path}) ==="
                             buildPython(
                                 pyprojectPath: path,
-                                extraArgs: extraArgs
+                                extraArgs: extraArgs,
+                                tag: tag
                             )
                         }
                     }

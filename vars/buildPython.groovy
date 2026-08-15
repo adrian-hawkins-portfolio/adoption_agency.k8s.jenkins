@@ -3,6 +3,7 @@ def call(Map config = [:]) {
     def projectDir = pyprojectPath.contains('/') 
         ? pyprojectPath.substring(0, pyprojectPath.lastIndexOf('/')) 
         : '.'
+    def tag = config.tag
 
     stage('Poetry setup') {
         sh """
@@ -17,7 +18,7 @@ def call(Map config = [:]) {
         // Horrible version strategy
         sh """
             cd ${projectDir}
-            poetry version ${env.BUILD_NUMBER}
+            poetry version ${tag}
             poetry build
             poetry publish -r azure
         """

@@ -3,7 +3,7 @@ import com.adoption_agency.Utils
 def call(Map config = [:]) {
     def dockerfilePath = config.dockerfilePath ?: 'Dockerfile'
     def imageName      = config.imageName ?: env.JOB_NAME.replaceAll('/', '-')
-    def tag            = config.tag ?: env.BUILD_NUMBER
+    def tag            = config.tag
     def isPod          = config.isPod ?: false
 
     def derivedContext = new File(dockerfilePath).parent ?: '.'
